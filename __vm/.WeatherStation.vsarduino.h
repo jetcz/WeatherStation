@@ -98,9 +98,11 @@ extern "C" void __cxa_pure_virtual() {;}
 #define portInputRegister(P)
 #define portModeRegister(P)
 #include <WeatherStation.ino>
+#include <DataSet.h>
 #include <DataTypesConversion.ino>
 #include <Lcd.ino>
 #include <PrivateData.h>
+#include <Sensors.ino>
 #include <Thingspeak.ino>
 #include <Time.ino>
 #endif

@@ -20,12 +20,16 @@
     <None Include="DataTypesConversion.ino" />
     <None Include="Lcd.ino" />
     <None Include="Thingspeak.ino" />
+    <None Include="Sensors.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.WeatherStation.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PrivateData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
