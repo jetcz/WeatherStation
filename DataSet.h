@@ -11,12 +11,16 @@ public:
 	DataSet() {
 		TimeStamp = 0;
 		Size = 8;
-		isValid = true;
+		isValid = false;
 		ThingSpeakStr.reserve(70);
+		for (int i = 0; i < this->Size; i++)
+		{
+			Data[i] = -255;
+		}
 	}
 
 	//properties
-	float Data[8];
+	volatile double Data[8];
 	byte Size; //size is used to determine length to the array. It is changed manulay in the code. Refer to alarms.ino
 	bool isValid;
 	String APIkey;

@@ -1,4 +1,7 @@
 
+#define DEBUG true
+
+#include <Ticker.h>
 #include <RunningAverage.h>
 #include <dhtESP8266.h>
 #include <TimeAlarms.h>
@@ -11,57 +14,61 @@
 
 #include <PrivateData.h>
 #include <DataSet.h>
+#include <SystemSettings.h>
 
 
-MAX7219 display(2, 15);  // Chips / CS
+
+const byte DHTInPin = 0;
+const byte SPI_CS = 15;
+
+MAX7219 display(2, SPI_CS);  // Chips / CS
 WiFiUDP udp;
 WiFiClient client;
-IPAddress NTPIP(195, 113, 144, 201);
+DataSet ds;
+SystemSettings Settings;
 
+Ticker lcdTicker;
 TimeChangeRule CEST = { "CEST", Last, Sun, Mar, 2, 120 };    //summer time = UTC + 2 hours
 TimeChangeRule CET = { "CET", Last, Sun, Oct, 3, 60 };		 //winter time = UTC + 1 hours
 Timezone myTZ(CEST, CET);
 TimeChangeRule *tcr;
-
 dhtESP8266 DHTIn;
-const byte DHTInPin = 0;
+dhtESP8266 DHTOut;
 
-DataSet ds;
+RunningAverage tempIn = RunningAverage(3);
+RunningAverage tempOut = RunningAverage(3);
+RunningAverage humIn = RunningAverage(3);
+RunningAverage humOut = RunningAverage(3);
+RunningAverage light = RunningAverage(3);
 
 
 String lcdText;
-int timeAlarm;
+int resyncAlarm;
 bool synced = false;
-int localPort = 2390;      // local port to listen for UDP packets
-
-const byte NTPPacketSize = 48; // NTP time stamp is in the first 48 bytes of the message
-byte packetBuffer[NTPPacketSize]; //buffer to hold incoming and outgoing packets
-char buf[30];
 
 
 void setup() {
 	Serial.begin(115200);
 
 	display.begin();
-	display.setIntensity(10);
+	display.setIntensity(5);
 
-	lcdText.reserve(48);
-	udp.begin(localPort);
+	lcdText.reserve(50);
+	udp.begin(2390);
 
 	PrivateData pd;
 	WiFi.begin(pd.SSID, pd.Password);
 	ds.APIkey = pd.APIKey;
 	ds.isValid = false;
 
-	setSyncProvider(syncProvider); //sync system clock from RTC module
+	setSyncProvider(syncProvider); //sync system clock from ntp
 	setSyncInterval(10800);
 
 	//alarms
-	Alarm.timerRepeat(1, printLcd);
-	Alarm.timerRepeat(10, getSensors);
-	Alarm.timerRepeat(60, thingSpeak);
-	if (!synced) timeAlarm = Alarm.timerRepeat(5, setTimeAlarm);
-
+	lcdTicker.attach_ms(1000, printLcd); //print lcd using interrupt - it will always execute
+	Alarm.timerRepeat(Settings.UpdateSensorsInterval, getSensors);
+	Alarm.timerRepeat(Settings.UpdateThingSpeakInterval, thingSpeak);
+	if (!synced) resyncAlarm = Alarm.timerRepeat(5, setTimeAlarm);
 
 }
 

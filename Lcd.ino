@@ -1,13 +1,12 @@
 void printLcd() {
 	static bool dot = true;
 	lcdText = "";
-
 	//line 2 dht in
 	if (ds.Data[0] && ds.Data[1])
 	{
 		lcdText += floatToString(ds.Data[0]);
 		lcdText += "c";
-		lcdText += (int)round(ds.Data[1]);
+		lcdText += (int)(ds.Data[1]);
 		lcdText += "rh";
 	}
 	else lcdText += "dht err ";
@@ -46,10 +45,7 @@ void printLcd() {
 	}
 	else lcdText += "ntp sync";
 
-
-
 	display.sendString(lcdText);
-
 }
 
 
