@@ -1,27 +1,64 @@
 /// <summary>
-/// Helper method to call Thingspeak upload, rotate datasets and restart arduino if there problems uploading
+/// Upload Open Weather Map data
 /// </summary>
-void thingSpeak() {
+void updateOpenWeatherMap() {
+
 	if (WiFi.status() != WL_CONNECTED || !ds.isValid) return;
 
-	ds.GetTSString();
+#if DEBUG
+	Serial.print(F("Connecting to OpenWeatherMap..."));
+#endif	
+	client.flush();
+	client.stop();
+	client.connect(Settings.OpenWeatherMapAddress, 80);
+
+	if (client.connected()) {
+		ds.GetOWMString();
+#if DEBUG
+		Serial.println(F("Connected to OpenWeatherMap, sending data..."));
+		Serial.println(ds.DataStr);
+#endif
+		client.print(F("POST /data/post HTTP/1.1\n"));
+		client.print(F("Host: openweathermap.org\n"));
+		client.print(F("Content-Type: application/x-www-form-urlencoded\n"));
+		client.print(F("Authorization: Basic "));
+		client.print(pd.OWMAuth);
+		client.print(F("\n"));
+		client.print(F("Content-Length: "));
+		client.print(ds.DataStr.length());
+		client.print(F("\n"));
+		client.print(F("Connection: close\n\n"));
+		client.print(ds.DataStr);
+		client.print(F("\r\n\r\n"));
+
+	}
+	else {
+#if DEBUG
+		Serial.println(F("Connecting to OpenWeatherMap failed"));
+#endif
+	}
+
+	client.flush();
+	client.stop();
+}
+
+
+///  <summary>
+/// Upload ThingSpeak data
+/// </summary>
+void updateThingSpeak() {
+	unsigned static long _lLastCnn;
+
+	if (WiFi.status() != WL_CONNECTED || !ds.isValid) return;
 
 #if DEBUG
 	Serial.println();
 	Serial.println(F("Updating ThingSpeak"));
 #endif
-	updateThingSpeak();
-}
-
-
-/// <summary>
-/// Upload ThingSpeak data
-/// </summary>
-void updateThingSpeak() {
 
 	client.flush();
 	//connect to thingspeak
-	unsigned static long _lLastCnn;
+
 	if (!client.connected() || now() - _lLastCnn > 420) //for some reason the connection doesn't last past 500 sec, so we need to close and reopen it manualy for maximum reliability
 	{
 		client.stop();
@@ -34,10 +71,11 @@ void updateThingSpeak() {
 	}
 	//update thingspeak
 	if (client.connected()) {
+		ds.GetTSString();
 
 #if DEBUG
 		Serial.println(F("Connected to ThingSpeak, sending data..."));
-		Serial.println(ds.ThingSpeakStr);
+		Serial.println(ds.DataStr);
 #endif
 		//why the hell the post doesnt work
 		//client.print(F("POST /update HTTP/1.1\n"));
@@ -52,9 +90,9 @@ void updateThingSpeak() {
 		//client.println(ds.ThingSpeakStr);
 
 		client.print(F("GET /update?key="));
-		client.print(ds.APIkey);
+		client.print(pd.TSAPIKey);
 		client.print(F("&"));
-		client.print(ds.ThingSpeakStr);
+		client.print(ds.DataStr);
 		client.print(F(" HTTP/1.1\r\n"));
 		client.print(F("Host: api.thingspeak.com\r\n"));
 		client.print(F("Accept: */*\r\n"));
@@ -66,7 +104,6 @@ void updateThingSpeak() {
 		client.stop();
 #if DEBUG
 		Serial.println(F("Connecting to ThingSpeak failed"));
-
 #endif
 	}
 }

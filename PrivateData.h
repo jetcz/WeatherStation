@@ -3,7 +3,8 @@
 /// </summary>
 struct PrivateData
 {
-	String APIKey = "xxx";
+	const String TSAPIKey = "xxx";
+	const String OWMAuth = "xxx=";
 	const char* SSID = "xxx";
 	const char* Password = "xxx";
 

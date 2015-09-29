@@ -9,6 +9,8 @@ void getSensors() {
 		ds.Data[0] = tempIn.getAverage();
 		ds.Data[1] = humIn.getAverage();
 		ds.Data[2] = getHumidex(DHTIn.temperature, DHTIn.humidity);
+
+		ds.isValid = true;
 	}
 	else
 	{
@@ -18,8 +20,6 @@ void getSensors() {
 
 
 	ds.Data[7] = getUptime();
-
-	ds.isValid = true;
 }
 
 float getHumidex(float temp, float hum) {
@@ -27,7 +27,6 @@ float getHumidex(float temp, float hum) {
 	float humidex = temp + 0.55555555 * (e - 10.0); //humidex
 	return humidex;
 }
-
 
 
 

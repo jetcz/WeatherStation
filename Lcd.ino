@@ -2,12 +2,16 @@ void printLcd() {
 	static bool dot = true;
 	lcdText = "";
 	//line 2 dht in
-	if (ds.Data[0] && ds.Data[1])
+	if (ds.isValid)
 	{
 		lcdText += floatToString(ds.Data[0]);
 		lcdText += "c";
 		lcdText += (int)(ds.Data[1]);
-		lcdText += "rh";
+		if (ds.Data[0] < 0)
+		{
+			lcdText += "h"; //if the temperature is negative, we need one more digit for the minus sign, so steal that digit from the "rh"
+		}
+		else lcdText += "rh";
 	}
 	else lcdText += "dht err ";
 
@@ -25,22 +29,23 @@ void printLcd() {
 			lcdText += "0";
 		}
 		lcdText += h; // print the hour (86400 equals secs per day)
-		lcdText += ".";
+		lcdText += "-";
 		if (m < 10) {
 			// In the first 10 minutes of each hour, we'll want a leading '0'
 			lcdText += "0";
 		}
 		lcdText += m; // print the minute (3600 equals secs per minute)
-		lcdText += "  ";
+		lcdText += " ";
+		if (dot)
+		{
+			lcdText += ".";
+		}
 		if (s < 10) {
 			// In the first 10 seconds of each minute, we'll want a leading '0'
 			lcdText += "0";
 		}
 		lcdText += s; // print the second
-		if (dot)
-		{
-			lcdText += ".";
-		}
+
 		dot = !dot;
 	}
 	else lcdText += "ntp sync";

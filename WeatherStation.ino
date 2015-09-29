@@ -26,6 +26,7 @@ WiFiUDP udp;
 WiFiClient client;
 DataSet ds;
 SystemSettings Settings;
+PrivateData pd;
 
 Ticker lcdTicker;
 TimeChangeRule CEST = { "CEST", Last, Sun, Mar, 2, 120 };    //summer time = UTC + 2 hours
@@ -53,22 +54,24 @@ void setup() {
 	display.begin();
 	display.setIntensity(5);
 
-	lcdText.reserve(50);
+	lcdText.reserve(30);
 	udp.begin(2390);
 
-	PrivateData pd;
 	WiFi.begin(pd.SSID, pd.Password);
-	ds.APIkey = pd.APIKey;
-	ds.isValid = false;
 
 	setSyncProvider(syncProvider); //sync system clock from ntp
 	setSyncInterval(10800);
 
+	ds.Latitude = Settings.Latitude;
+	ds.Longitude = Settings.Longitude;
+
 	//alarms
 	lcdTicker.attach_ms(1000, printLcd); //print lcd using interrupt - it will always execute
 	Alarm.timerRepeat(Settings.UpdateSensorsInterval, getSensors);
-	Alarm.timerRepeat(Settings.UpdateThingSpeakInterval, thingSpeak);
+	Alarm.timerRepeat(Settings.UpdateThingSpeakInterval, updateThingSpeak);
 	if (!synced) resyncAlarm = Alarm.timerRepeat(5, setTimeAlarm);
+
+	//Alarm.timerRepeat(Settings.UpdateOpenWeatherMapInterval, updateOpenWeatherMap);
 
 }
 
