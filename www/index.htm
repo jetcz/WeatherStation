@@ -1,11 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=windows-1250">
-    <meta name="generator" content="PSPad editor, www.pspad.com">
     <link href='http://fonts.googleapis.com/css?family=Roboto:500,900,100,300,700,400' rel='stylesheet' type='text/css'>
     <link href='general.css' rel='stylesheet' type='text/css'>
-    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js'></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type='text/javascript' src='https://www.google.com/jsapi'></script>
     <script src="raphael-2.1.4.min.js"></script>
     <script src="justgage-1.1.0.min.js"></script>
@@ -16,7 +14,6 @@
         window.onload = function () {
             var tempIn = new JustGage({
                 id: "tempIn",
-                value: loadData(),
                 min: 10,
                 max: 40,
                 decimals: 1,
@@ -41,7 +38,6 @@
 
             var humIn = new JustGage({
                 id: "humIn",
-                value: getRandomInt(0, 100),
                 min: 0,
                 max: 100,
                 symbol: "%",
@@ -51,10 +47,10 @@
                 customSectors: [{
                     color: "#f50000",
                     lo: 0,
-                    hi: 40
+                    hi: 20
                 }, {
                     color: "#159f00",
-                    lo: 40,
+                    lo: 35,
                     hi: 60
                 }, {
                     color: "#0000f5",
@@ -65,7 +61,6 @@
 
             var tempOut = new JustGage({
                 id: "tempOut",
-                value: getRandomInt(10, 40),
                 min: -30,
                 max: 50,
                 decimals: 1,
@@ -95,7 +90,6 @@
 
             var humOut = new JustGage({
                 id: "humOut",
-                value: getRandomInt(0, 100),
                 min: 0,
                 max: 100,
                 symbol: "%",
@@ -105,10 +99,10 @@
                 customSectors: [{
                     color: "#f50000",
                     lo: 0,
-                    hi: 40
+                    hi: 20
                 }, {
                     color: "#159f00",
-                    lo: 40,
+                    lo: 35,
                     hi: 60
                 }, {
                     color: "#0000f5",
@@ -117,12 +111,12 @@
                 }],
             });
 
+            loadData();
             setInterval(function () {
                 loadData();
             }, 30000);
 
             function loadData() {
-                //https://api.thingspeak.com/channels/7367/field/5/last.json?apikey=EPQ400EHDNU7DVLE&callback=?
                 $.getJSON('https://api.thingspeak.com/channels/58079/feed/last.json?apikey=BTERJA9AJDKJ5P5D&callback=?', function (data) {
 
                     tempIn.refresh(parseFloat(data.field1));
@@ -140,8 +134,8 @@
     <header>
         <nav class="stroke">
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Graphs</a></li>
+                <li><a href="index.htm">Home</a></li>
+                <li><a href="graphs.htm">Graphs</a></li>
             </ul>
         </nav>
     </header>

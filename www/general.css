@@ -1,18 +1,18 @@
 body {
     font-family: 'Roboto', sans-serif;
-    padding: 0;
-    margin: 0;
 }
 
 .headline {
     color: #aaa;
     font-size: 1.5em;
     text-transform: uppercase;
-    padding-top:1em;
 }
 
 .center {
     text-align: center;
+    border: 1px solid #dedede;
+    margin: 2em 4em 0 4em;
+    padding: 1.5em;
 }
 
 .panel {
@@ -22,27 +22,29 @@ body {
 
 .temp {
     text-transform: uppercase;
-    color: #aaa;
-    width: 20em;
+    color: #dedede;
+    width: 22em;
     height: 15em;
     margin-top: -3em;
 }
 
 .hum {
     text-transform: uppercase;
-    width: 20em;
+    width: 22em;
     height: 8em;
 }
 
+
+#chart-container {
+    height: 35em;
+}
 
 /* NAVIGATION */
 
 nav {
     width: 50%;
     margin: 0 auto;
-    background: #fff;
-    padding: 1px 0;
-    box-shadow: 0px 5px 0px #dedede;
+    box-shadow: 0 1px 0 0 #dedede;
 }
 
     nav ul {
