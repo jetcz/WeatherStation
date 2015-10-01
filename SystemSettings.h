@@ -1,5 +1,7 @@
 struct SystemSettings
 {
+	float TempInOffset = 0.8;
+
 	const int InvalidValue = -255;
 	const byte UpdateSensorsInterval = 10;
 	const byte UpdateThingSpeakInterval = 60;

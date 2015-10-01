@@ -37,7 +37,7 @@ public:
 		{
 			if (this->Data[i] > -100) //in case we get some broken values which are -255
 			{
-				DataStr += String(i + 1) + "=" + String(this->Data[i], 1);
+				DataStr += String(i + 1) + "=" + String(this->Data[i], 2);
 				if (i < this->Size - 1) DataStr += "&";
 			}
 		}

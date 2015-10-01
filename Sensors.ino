@@ -3,7 +3,7 @@ void getSensors() {
 	int state = DHTIn.read22(DHTInPin);
 	if (state == 0) {
 
-		tempIn.addValue(DHTIn.temperature);
+		tempIn.addValue(DHTIn.temperature + Settings.TempInOffset);
 		humIn.addValue(DHTIn.humidity);
 
 		ds.Data[0] = tempIn.getAverage();

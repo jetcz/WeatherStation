@@ -1,5 +1,4 @@
-
-#define DEBUG true
+#define DEBUG false
 
 #include <Ticker.h>
 #include <RunningAverage.h>
@@ -15,8 +14,6 @@
 #include <PrivateData.h>
 #include <DataSet.h>
 #include <SystemSettings.h>
-
-
 
 const byte DHTInPin = 0;
 const byte SPI_CS = 15;
@@ -49,10 +46,13 @@ bool synced = false;
 
 
 void setup() {
+#if DEBUG
 	Serial.begin(115200);
+#endif // DEBUG
+
 
 	display.begin();
-	display.setIntensity(5);
+	display.setIntensity(0);
 
 	lcdText.reserve(30);
 	udp.begin(2390);
