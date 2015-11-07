@@ -11,18 +11,13 @@ public:
 	DataSet() {
 		TimeStamp = Latitude = Longitude = 0;
 		Size = 8;
-		isValid = false;
 		DataStr.reserve(100);
-		for (int i = 0; i < this->Size; i++)
-		{
-			Data[i] = -255;
-		}
 	}
 
 	//properties
-	volatile double Data[10];
+	volatile double Data[10] = { 0 };
 	byte Size; //size is used to determine length to the array. It is changed manulay in the code. Refer to alarms.ino
-	bool isValid;
+	bool isValid[2] = { false };
 	time_t TimeStamp;
 	String DataStr;
 	float Latitude;

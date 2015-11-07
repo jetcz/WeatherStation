@@ -1,17 +1,23 @@
 void printLcd() {
 	static bool dot = true;
 	lcdText = "";
-	//line 2 dht in
-	if (ds.isValid)
+	//line 1 dht in
+	if (ds.isValid[0])
 	{
-		lcdText += floatToString(ds.Data[0]);
+		lcdText += tempToString(ds.Data[0]);
 		lcdText += "c";
-		lcdText += (int)(ds.Data[1]);
-		if (ds.Data[0] < 0)
-		{
-			lcdText += "h"; //if the temperature is negative, we need one more digit for the minus sign, so steal that digit from the "rh"
-		}
-		else lcdText += "rh";
+		lcdText += floatToString(ds.Data[1], 2, 0);
+		lcdText += "rh";
+	}
+	else lcdText += "dht err ";
+
+	//line 2 dht out
+	if (ds.isValid[1])
+	{
+		lcdText += tempToString(ds.Data[3]);
+		lcdText += "c";
+		lcdText += floatToString(ds.Data[4], 2, 0);
+		lcdText += "rh";
 	}
 	else lcdText += "dht err ";
 
@@ -35,7 +41,7 @@ void printLcd() {
 			lcdText += "0";
 		}
 		lcdText += m; // print the minute (3600 equals secs per minute)
-		lcdText += " ";
+		lcdText += "-";
 		if (dot)
 		{
 			lcdText += ".";

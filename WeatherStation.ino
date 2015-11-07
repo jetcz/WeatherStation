@@ -18,7 +18,7 @@
 const byte DHTInPin = 0;
 const byte SPI_CS = 15;
 
-MAX7219 display(2, SPI_CS);  // Chips / CS
+MAX7219 display(3, SPI_CS);  // Chips / CS
 WiFiUDP udp;
 WiFiClient client;
 DataSet ds;
@@ -54,7 +54,7 @@ void setup() {
 	display.begin();
 	display.setIntensity(0);
 
-	lcdText.reserve(30);
+	lcdText.reserve(50);
 	udp.begin(2390);
 
 	WiFi.begin(pd.SSID, pd.Password);
@@ -72,7 +72,6 @@ void setup() {
 	if (!synced) resyncAlarm = Alarm.timerRepeat(5, setTimeAlarm);
 
 	//Alarm.timerRepeat(Settings.UpdateOpenWeatherMapInterval, updateOpenWeatherMap);
-
 }
 
 

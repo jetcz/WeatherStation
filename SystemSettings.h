@@ -1,6 +1,7 @@
 struct SystemSettings
 {
-	float TempInOffset = 0.8;
+	float TempInOffset = 0.75;
+	float TempOutOffset = 0;
 
 	const int InvalidValue = -255;
 	const byte UpdateSensorsInterval = 10;
