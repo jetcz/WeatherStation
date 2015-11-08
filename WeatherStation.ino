@@ -10,23 +10,23 @@
 #include <SPI.h>
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
-
+//custom structs
 #include <PrivateData.h>
 #include <DataSet.h>
 #include <SystemSettings.h>
 
-//pins - subtract 1 from D???
-//static const uint8_t D0 = 16;
-//static const uint8_t D1 = 5;
-//static const uint8_t D2 = 4;
-//static const uint8_t D3 = 0;
-//static const uint8_t D4 = 2;
-//static const uint8_t D5 = 14;
-//static const uint8_t D6 = 12;
-//static const uint8_t D7 = 13;
-//static const uint8_t D8 = 15;
-//static const uint8_t D9 = 3;
-//static const uint8_t D10 = 1;
+//pin mapping - subtract 1 from D???
+//D0 = 16;
+//D1 = 5;
+//D2 = 4;
+//D3 = 0;
+//D4 = 2;
+//D5 = 14;
+//D6 = 12;
+//D7 = 13;
+//D8 = 15;
+//D9 = 3;
+//D10 = 1;
 
 const byte DHTInPin = 0;
 const byte DHTOutPin = 4;
@@ -53,24 +53,20 @@ RunningAverage humIn = RunningAverage(3);
 RunningAverage humOut = RunningAverage(3);
 RunningAverage light = RunningAverage(3);
 
-
 String lcdText;
 int resyncAlarm;
 bool synced = false;
 
-
 void setup() {
 #if DEBUG
-	Serial.begin(9600);
+	Serial.begin(9600); //serial console is very unreliable for some reason
 #endif // DEBUG
-
 
 	display.begin();
 	display.setIntensity(0);
-
 	lcdText.reserve(50);
-	udp.begin(2390);
 
+	udp.begin(2390);
 	WiFi.begin(pd.SSID, pd.Password);
 
 	setSyncProvider(syncProvider); //sync system clock from ntp
@@ -86,9 +82,8 @@ void setup() {
 	Alarm.timerRepeat(Settings.UpdateThingSpeakInterval, updateThingSpeak);
 	if (!synced) resyncAlarm = Alarm.timerRepeat(5, setTimeAlarm);
 
-	//Alarm.timerRepeat(Settings.UpdateOpenWeatherMapInterval, updateOpenWeatherMap);
+	//Alarm.timerRepeat(Settings.UpdateOpenWeatherMapInterval, updateOpenWeatherMap); //open weather map is weird, ditch that
 }
-
 
 void loop() {
 	yield();

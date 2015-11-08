@@ -1,3 +1,6 @@
+/// <summary>
+/// Display sensor data and time on the lcd array
+/// </summary>
 void printLcd() {
 	static bool dot = true;
 	lcdText = "";
@@ -60,8 +63,11 @@ void printLcd() {
 	display.sendString(lcdText);
 }
 
+/// <summary>
+/// Set backlight intensity based on analog reading of photoresistor
+/// (wiring is weird and it gives readings from 290 to 328 but fuck it)
+/// </summary>
 void setBacklight() {
-	//somewhat fucked up circuit, gives values from 290 to 328
 	int counts;
 	do
 	{

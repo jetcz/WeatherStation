@@ -1,3 +1,6 @@
+/// <summary>
+/// Read sensor data and prepare dataset
+/// </summary>
 void getSensors() {
 	int state;
 	static bool sensor = true;
@@ -48,6 +51,13 @@ void getSensors() {
 	ds.Data[7] = getUptime();
 }
 
+
+/// <summary>
+/// Calculate humidex
+/// </summary>
+/// <param name="temp">Temperature</param>
+/// <param name="hum">Humidity </param>
+/// <returns></returns>
 float getHumidex(float temp, float hum) {
 	float e = (6.112 * pow(10, (7.5 * temp / (237.7 + temp))) *  hum / 100.0); //vapor pressure
 	float humidex = temp + 0.55555555 * (e - 10.0); //humidex
@@ -56,7 +66,12 @@ float getHumidex(float temp, float hum) {
 
 
 
-//for some reason math.h doesnt work
+/// <summary>
+/// Ripped from Math.h (for some reason math.h doesnt work)
+/// </summary>
+/// <param name="x"></param>
+/// <param name="y"></param>
+/// <returns></returns>
 inline double pow(double x, double y)
 {
 	double z, p = 1;

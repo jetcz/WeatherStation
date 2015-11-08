@@ -1,3 +1,7 @@
+/// <summary>
+/// Get NTP time
+/// </summary>
+/// <returns></returns>
 unsigned long ntp() {
 	if (WiFi.status() != WL_CONNECTED) return 0;
 
@@ -73,6 +77,9 @@ unsigned long ntp() {
 	}
 }
 
+/// <summary>
+/// Called repeatedly after bootup untile time is obtained from NTP
+/// </summary>
 void setTimeAlarm() {
 
 	unsigned long time = ntp();
@@ -84,16 +91,27 @@ void setTimeAlarm() {
 
 }
 
+/// <summary>
+/// Time sync provider using NTP and DST
+/// </summary>
+/// <returns></returns>
 time_t syncProvider()
 {
 	return myTZ.toLocal(ntp(), &tcr);
 }
 
-
+/// <summary>
+/// Get uptime
+/// </summary>
+/// <returns></returns>
 unsigned long getUptime() {
 	return 4294967 * millisRollover() + round(millis() / 1000);
 }
 
+/// <summary>
+/// Exstension of classic millis(), handles overflow
+/// </summary>
+/// <returns></returns>
 unsigned int millisRollover() {
 
 	static unsigned int _nNumRollovers = 0; // variable that permanently holds the number of rollovers since startup

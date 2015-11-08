@@ -1,6 +1,5 @@
 struct SystemSettings
 {
-	//float TempInOffset = 0.75;
 	float TempInOffset = 0.7;
 	float TempOutOffset = 0.7;
 
@@ -13,6 +12,4 @@ struct SystemSettings
 	const char* NTPAddress = "tik.cesnet.cz";
 	float Latitude = 50.2001119;
 	float Longitude = 15.8426169;
-
-
 }; typedef struct SystemSettings SystemSettings;

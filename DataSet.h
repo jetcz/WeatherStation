@@ -1,4 +1,3 @@
-
 /// <summary>
 /// Structure holding data from sensors sent to thingspeak
 /// </summary>
