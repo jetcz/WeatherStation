@@ -15,7 +15,21 @@
 #include <DataSet.h>
 #include <SystemSettings.h>
 
+//pins - subtract 1 from D???
+//static const uint8_t D0 = 16;
+//static const uint8_t D1 = 5;
+//static const uint8_t D2 = 4;
+//static const uint8_t D3 = 0;
+//static const uint8_t D4 = 2;
+//static const uint8_t D5 = 14;
+//static const uint8_t D6 = 12;
+//static const uint8_t D7 = 13;
+//static const uint8_t D8 = 15;
+//static const uint8_t D9 = 3;
+//static const uint8_t D10 = 1;
+
 const byte DHTInPin = 0;
+const byte DHTOutPin = 4;
 const byte SPI_CS = 15;
 
 MAX7219 display(3, SPI_CS);  // Chips / CS
@@ -47,7 +61,7 @@ bool synced = false;
 
 void setup() {
 #if DEBUG
-	Serial.begin(115200);
+	Serial.begin(9600);
 #endif // DEBUG
 
 
@@ -67,6 +81,7 @@ void setup() {
 
 	//alarms
 	lcdTicker.attach_ms(1000, printLcd); //print lcd using interrupt - it will always execute
+	Alarm.timerRepeat(2, setBacklight);
 	Alarm.timerRepeat(Settings.UpdateSensorsInterval, getSensors);
 	Alarm.timerRepeat(Settings.UpdateThingSpeakInterval, updateThingSpeak);
 	if (!synced) resyncAlarm = Alarm.timerRepeat(5, setTimeAlarm);

@@ -3,6 +3,7 @@ inline char * tempToString(float val) {
 	int len = 4;
 	int prec = 1;
 
+	//in case the temp is less than -10 we need one more place for the minus sign - do not print decimal place
 	if (val < -10)
 	{
 		val = round(val);

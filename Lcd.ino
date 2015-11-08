@@ -1,6 +1,7 @@
 void printLcd() {
 	static bool dot = true;
 	lcdText = "";
+
 	//line 1 dht in
 	if (ds.isValid[0])
 	{
@@ -59,4 +60,21 @@ void printLcd() {
 	display.sendString(lcdText);
 }
 
+void setBacklight() {
+	//somewhat fucked up circuit, gives values from 290 to 328
+	int counts;
+	do
+	{
+		counts = analogRead(A0);
+	} while (counts < 290 || counts > 328);
 
+	counts = counts - 298;
+	light.addValue(int(counts / 2));
+	int intensity = light.getAverage();
+	intensity = intensity < 0 ? 0 : intensity;
+	intensity = intensity > 15 ? 15 : intensity;
+	display.setIntensity(int(intensity / 3));
+
+	//display.sendString("                        ");
+	//display.sendString(String(intensity) + " " + String(counts));
+}

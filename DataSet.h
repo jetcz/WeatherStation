@@ -16,7 +16,7 @@ public:
 
 	//properties
 	volatile double Data[10] = { 0 };
-	byte Size; //size is used to determine length to the array. It is changed manulay in the code. Refer to alarms.ino
+	byte Size;
 	bool isValid[2] = { false };
 	time_t TimeStamp;
 	String DataStr;
@@ -30,7 +30,9 @@ public:
 		DataStr = "";
 		for (int i = 0; i < this->Size; i++)
 		{
-			if (this->Data[i] > -100) //in case we get some broken values which are -255
+			if ((this->isValid[0] && i < 3)
+				|| (this->isValid[1] && (i >= 3 && i < 6))
+				|| i >= 6)
 			{
 				DataStr += String(i + 1) + "=" + String(this->Data[i], 2);
 				if (i < this->Size - 1) DataStr += "&";
