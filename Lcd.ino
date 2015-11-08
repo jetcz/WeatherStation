@@ -75,11 +75,10 @@ void setBacklight() {
 	} while (counts < 290 || counts > 328);
 
 	counts = counts - 298;
-	light.addValue(int(counts / 2));
-	int intensity = light.getAverage();
-	intensity = intensity < 0 ? 0 : intensity;
-	intensity = intensity > 15 ? 15 : intensity;
-	display.setIntensity(int(intensity / 3));
+	counts = counts < 0 ? 0 : counts;
+	counts = counts > 30 ? 30 : counts;
+	light.addValue(counts);
+	display.setIntensity(int(light.getAverage() / 5.0));
 
 	//display.sendString("                        ");
 	//display.sendString(String(intensity) + " " + String(counts));

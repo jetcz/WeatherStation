@@ -51,7 +51,7 @@ RunningAverage tempIn = RunningAverage(3);
 RunningAverage tempOut = RunningAverage(3);
 RunningAverage humIn = RunningAverage(3);
 RunningAverage humOut = RunningAverage(3);
-RunningAverage light = RunningAverage(3);
+RunningAverage light = RunningAverage(5);
 
 String lcdText;
 int resyncAlarm;

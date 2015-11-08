@@ -48,6 +48,7 @@ void getSensors() {
 	}
 
 	sensor = !sensor;
+	ds.Data[6] = light.getAverage();
 	ds.Data[7] = getUptime();
 }
 
