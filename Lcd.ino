@@ -68,10 +68,21 @@ void printLcd() {
 /// (wiring is weird and it gives readings from 290 to 328 but fuck it)
 /// </summary>
 void setBacklight() {
+	if (!Alarm.active(SetBacklightAlarm))
+	{
+		SetBacklightAlarm = Alarm.timerRepeat(2, setBacklight);
+	}
+
 	int counts;
+	int cnt = 0;
 	do
 	{
-		counts = analogRead(A0);
+		if (cnt > 3)
+		{
+			return;
+		}
+		counts = analogRead(17);
+		cnt++;
 	} while (counts < 290 || counts > 328);
 
 	counts = counts - 298;

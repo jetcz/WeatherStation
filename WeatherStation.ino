@@ -56,6 +56,7 @@ RunningAverage light = RunningAverage(5);
 String lcdText;
 int resyncAlarm;
 bool synced = false;
+int SetBacklightAlarm;
 
 void setup() {
 #if DEBUG
@@ -77,7 +78,7 @@ void setup() {
 
 	//alarms
 	lcdTicker.attach_ms(1000, printLcd); //print lcd using interrupt - it will always execute
-	Alarm.timerRepeat(2, setBacklight);
+	Alarm.timerOnce(3, setBacklight);
 	Alarm.timerRepeat(Settings.UpdateSensorsInterval, getSensors);
 	Alarm.timerRepeat(Settings.UpdateThingSpeakInterval, updateThingSpeak);
 	if (!synced) resyncAlarm = Alarm.timerRepeat(5, setTimeAlarm);
