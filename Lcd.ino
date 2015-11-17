@@ -11,7 +11,10 @@ void printLcd() {
 		lcdText += tempToString(ds.Data[0]);
 		lcdText += "c";
 		lcdText += floatToString(ds.Data[1], 2, 0);
-		lcdText += "rh";
+		if (ds.Data[1] == 100 )
+		{
+			lcdText += "h";
+		} else lcdText += "rh";
 	}
 	else lcdText += "dht err ";
 
@@ -21,7 +24,11 @@ void printLcd() {
 		lcdText += tempToString(ds.Data[3]);
 		lcdText += "c";
 		lcdText += floatToString(ds.Data[4], 2, 0);
-		lcdText += "rh";
+		if (ds.Data[4] == 100)
+		{
+			lcdText += "h";
+		}
+		else lcdText += "rh";
 	}
 	else lcdText += "dht err ";
 
@@ -68,6 +75,7 @@ void printLcd() {
 /// (wiring is weird and it gives readings from 290 to 328 but fuck it)
 /// </summary>
 void setBacklight() {
+	static int lastVal;
 	if (!Alarm.active(SetBacklightAlarm))
 	{
 		SetBacklightAlarm = Alarm.timerRepeat(2, setBacklight);
@@ -89,7 +97,12 @@ void setBacklight() {
 	counts = counts < 0 ? 0 : counts;
 	counts = counts > 30 ? 30 : counts;
 	light.addValue(counts);
-	display.setIntensity(int(light.getAverage() / 5.0));
+	int currentVal = int(light.getAverage() / 5.0);
+	if (currentVal != lastVal)
+	{
+		display.setIntensity(currentVal);
+	}
+	lastVal = currentVal;
 
 	//display.sendString("                        ");
 	//display.sendString(String(intensity) + " " + String(counts));

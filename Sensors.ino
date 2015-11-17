@@ -25,7 +25,7 @@ void getSensors() {
 			ds.isValid[0] = false;
 		}
 	}
-	else 
+	else
 	{
 		state = DHTOut.read22(DHTOutPin);
 		if (state == 0) {
@@ -55,43 +55,15 @@ void getSensors() {
 
 /// <summary>
 /// Calculate humidex
+/// To use pow() function refer to https://github.com/esp8266/Arduino/issues/612
 /// </summary>
 /// <param name="temp">Temperature</param>
 /// <param name="hum">Humidity </param>
 /// <returns></returns>
 float getHumidex(float temp, float hum) {
-	float e = (6.112 * pow(10, (7.5 * temp / (237.7 + temp))) *  hum / 100.0); //vapor pressure
+
+	float e;
+	e = (6.112 * pow(10, (7.5 * temp / (237.7 + temp))) *  hum / 100.0); //vapor pressure
 	float humidex = temp + 0.55555555 * (e - 10.0); //humidex
 	return humidex;
-}
-
-
-
-/// <summary>
-/// Ripped from Math.h (for some reason math.h doesnt work)
-/// </summary>
-/// <param name="x"></param>
-/// <param name="y"></param>
-/// <returns></returns>
-inline double pow(double x, double y)
-{
-	double z, p = 1;
-	//y<0 ? z=-y : z=y ;
-	if (y < 0)
-		z = fabs(y);
-	else
-		z = y;
-	for (int i = 0; i < z; ++i)
-	{
-		p *= x;
-	}
-	if (y < 0)
-		return 1 / p;
-	else
-		return p;
-}
-
-inline double fabs(double x)
-{
-	return(x < 0 ? -x : x);
 }

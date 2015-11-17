@@ -45,10 +45,8 @@ public:
 	void GetOWMString() {
 		DataStr = "";
 		DataStr += "temp=";
-		//DataStr += String(this->Data[3]);
 		DataStr += String(this->Data[0], 1);
 		DataStr += "&humidity=";
-		//DataStr += String(this->Data[4]);
 		DataStr += String(this->Data[1], 1);
 		DataStr += "&lat=";
 		DataStr += String(this->Latitude, 7);
