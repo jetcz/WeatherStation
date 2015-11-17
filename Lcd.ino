@@ -4,14 +4,15 @@
 void printLcd() {
 	static bool dot = true;
 	lcdText = "";
-
+	String hum;
 	//line 1 dht in
 	if (ds.isValid[0])
 	{
 		lcdText += tempToString(ds.Data[0]);
 		lcdText += "c";
-		lcdText += floatToString(ds.Data[1], 2, 0);
-		if (ds.Data[1] == 100 )
+		hum = floatToString(ds.Data[1], 2, 0);
+		lcdText += hum;
+		if (hum.length() == 3)
 		{
 			lcdText += "h";
 		} else lcdText += "rh";
@@ -23,8 +24,9 @@ void printLcd() {
 	{
 		lcdText += tempToString(ds.Data[3]);
 		lcdText += "c";
-		lcdText += floatToString(ds.Data[4], 2, 0);
-		if (ds.Data[4] == 100)
+		hum = floatToString(ds.Data[4], 2, 0);
+		lcdText += hum;
+		if (hum.length() == 3)
 		{
 			lcdText += "h";
 		}
