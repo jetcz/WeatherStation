@@ -3,39 +3,39 @@
 /// </summary>
 void printLcd() {
 	static bool dot = true;
-	lcdText = "";
+	LcdText = "";
 	String hum;
 	//line 1 dht in
 	if (ds.isValid[0])
 	{
-		lcdText += tempToString(ds.Data[0]);
-		lcdText += "c";
+		LcdText += tempToString(ds.Data[0]);
+		LcdText += "c";
 		hum = floatToString(ds.Data[1], 2, 0);
-		lcdText += hum;
+		LcdText += hum;
 		if (hum.length() == 3)
 		{
-			lcdText += "h";
-		} else lcdText += "rh";
+			LcdText += "h";
+		} else LcdText += "rh";
 	}
-	else lcdText += "dht err ";
+	else LcdText += "dht err ";
 
 	//line 2 dht out
 	if (ds.isValid[1])
 	{
-		lcdText += tempToString(ds.Data[3]);
-		lcdText += "c";
+		LcdText += tempToString(ds.Data[3]);
+		LcdText += "c";
 		hum = floatToString(ds.Data[4], 2, 0);
-		lcdText += hum;
+		LcdText += hum;
 		if (hum.length() == 3)
 		{
-			lcdText += "h";
+			LcdText += "h";
 		}
-		else lcdText += "rh";
+		else LcdText += "rh";
 	}
-	else lcdText += "dht err ";
+	else LcdText += "dht err ";
 
 	//line 3 time
-	if (synced)
+	if (FirstSync)
 	{
 		time_t t = now();
 
@@ -45,66 +45,54 @@ void printLcd() {
 
 		if (h < 10)
 		{
-			lcdText += "0";
+			LcdText += "0";
 		}
-		lcdText += h; // print the hour (86400 equals secs per day)
-		lcdText += "-";
+		LcdText += h; // print the hour (86400 equals secs per day)
+		LcdText += "-";
 		if (m < 10) {
 			// In the first 10 minutes of each hour, we'll want a leading '0'
-			lcdText += "0";
+			LcdText += "0";
 		}
-		lcdText += m; // print the minute (3600 equals secs per minute)
-		lcdText += "-";
+		LcdText += m; // print the minute (3600 equals secs per minute)
+		LcdText += "-";
 		if (dot)
 		{
-			lcdText += ".";
+			LcdText += ".";
 		}
 		if (s < 10) {
 			// In the first 10 seconds of each minute, we'll want a leading '0'
-			lcdText += "0";
+			LcdText += "0";
 		}
-		lcdText += s; // print the second
+		LcdText += s; // print the second
 
 		dot = !dot;
 	}
-	else lcdText += "ntp sync";
+	else LcdText += "ntp sync";
 
-	display.sendString(lcdText);
+	display.sendString(LcdText);
 }
 
 /// <summary>
 /// Set backlight intensity based on analog reading of photoresistor
-/// (wiring is weird and it gives readings from 290 to 328 but fuck it)
 /// </summary>
 void setBacklight() {
 	static int lastVal;
 	if (!Alarm.active(SetBacklightAlarm))
 	{
-		SetBacklightAlarm = Alarm.timerRepeat(2, setBacklight);
+		SetBacklightAlarm = Alarm.timerRepeat(1, setBacklight);
 	}
 
-	int counts;
-	int cnt = 0;
-	do
-	{
-		if (cnt > 3)
-		{
-			return;
-		}
-		counts = analogRead(17);
-		cnt++;
-	} while (counts < 290 || counts > 328);
-
-	counts = counts - 298;
-	counts = counts < 0 ? 0 : counts;
-	counts = counts > 30 ? 30 : counts;
+	int counts = analogRead(17);
 	light.addValue(counts);
-	int currentVal = int(light.getAverage() / 5.0);
-	if (currentVal != lastVal)
+	int intensity = round(pow(light.getAverage(), 1.9) * 4.0 / 100000.0);
+	intensity = intensity > 15 ? 15 : intensity;
+
+	if (intensity != lastVal)
 	{
-		display.setIntensity(currentVal);
+		display.setIntensity(intensity);
 	}
-	lastVal = currentVal;
+
+	lastVal = intensity;
 
 	//display.sendString("                        ");
 	//display.sendString(String(intensity) + " " + String(counts));

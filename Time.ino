@@ -63,7 +63,7 @@ unsigned long ntp() {
 		// Unix time starts on Jan 1 1970. In seconds, that's 2208988800:
 		const unsigned long seventyYears = 2208988800UL;
 		// subtract seventy years:
-		unsigned long epoch;
+		unsigned long epoch = 0;
 		if (timeout < 500)
 		{
 			epoch = secsSince1900 - seventyYears + 1;
@@ -72,7 +72,6 @@ unsigned long ntp() {
 		{
 			epoch = secsSince1900 - seventyYears + 2;
 		}
-		synced = true;
 		return epoch;
 	}
 }
@@ -81,23 +80,17 @@ unsigned long ntp() {
 /// Called repeatedly after bootup untile time is obtained from NTP
 /// </summary>
 void setTimeAlarm() {
-
 	unsigned long time = ntp();
 	if (time != 0)
 	{
 		setTime(myTZ.toLocal(time, &tcr));
-		Alarm.disable(resyncAlarm);
+
+		if (!FirstSync)
+		{
+			SyncAlarm = Alarm.timerRepeat(10800, setTimeAlarm);
+			FirstSync = true;
+		}
 	}
-
-}
-
-/// <summary>
-/// Time sync provider using NTP and DST
-/// </summary>
-/// <returns></returns>
-time_t syncProvider()
-{
-	return myTZ.toLocal(ntp(), &tcr);
 }
 
 /// <summary>

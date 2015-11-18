@@ -20,8 +20,11 @@ void getSensors() {
 		}
 		else
 		{
+#if DEBUG
 			Serial.print("Reading failed: ");
 			Serial.println(state);
+#endif // DEBUG
+
 			ds.isValid[0] = false;
 		}
 	}
@@ -41,8 +44,10 @@ void getSensors() {
 		}
 		else
 		{
+#if DEBUG
 			Serial.print("Reading failed: ");
 			Serial.println(state);
+#endif // DEBUG
 			ds.isValid[1] = false;
 		}
 	}
@@ -61,9 +66,7 @@ void getSensors() {
 /// <param name="hum">Humidity </param>
 /// <returns></returns>
 float getHumidex(float temp, float hum) {
-
-	float e;
-	e = (6.112 * pow(10, (7.5 * temp / (237.7 + temp))) *  hum / 100.0); //vapor pressure
+	float e = (6.112 * pow(10, (7.5 * temp / (237.7 + temp))) *  hum / 100.0); //vapor pressure
 	float humidex = temp + 0.55555555 * (e - 10.0); //humidex
 	return humidex;
 }

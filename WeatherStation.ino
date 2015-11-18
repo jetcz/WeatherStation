@@ -53,10 +53,10 @@ RunningAverage humIn = RunningAverage(3);
 RunningAverage humOut = RunningAverage(3);
 RunningAverage light = RunningAverage(5);
 
-String lcdText;
-int resyncAlarm;
-bool synced = false;
+String LcdText;
+int SyncAlarm;
 int SetBacklightAlarm;
+bool FirstSync = false;
 
 void setup() {
 #if DEBUG
@@ -65,13 +65,10 @@ void setup() {
 
 	display.begin();
 	display.setIntensity(0);
-	lcdText.reserve(50);
+	LcdText.reserve(50);
 
 	udp.begin(2390);
 	WiFi.begin(pd.SSID, pd.Password);
-
-	setSyncProvider(syncProvider); //sync system clock from ntp
-	setSyncInterval(10800);
 
 	ds.Latitude = Settings.Latitude;
 	ds.Longitude = Settings.Longitude;
@@ -81,7 +78,7 @@ void setup() {
 	Alarm.timerOnce(3, setBacklight);
 	Alarm.timerRepeat(Settings.UpdateSensorsInterval, getSensors);
 	Alarm.timerRepeat(Settings.UpdateThingSpeakInterval, updateThingSpeak);
-	if (!synced) resyncAlarm = Alarm.timerRepeat(5, setTimeAlarm);
+	SyncAlarm = Alarm.timerRepeat(5, setTimeAlarm);
 
 	//Alarm.timerRepeat(Settings.UpdateOpenWeatherMapInterval, updateOpenWeatherMap); //open weather map is weird, ditch that
 }
