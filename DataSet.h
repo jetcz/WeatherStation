@@ -3,14 +3,18 @@
 /// </summary>
 class DataSet
 {
+private:
+	Utils u;
+
 public:
 	/// <summary>
 	/// constructor
 	/// </summary>
-	DataSet() {
+	DataSet(Utils u) {
 		TimeStamp = Latitude = Longitude = 0;
 		Size = 8;
 		DataStr.reserve(100);
+		this->u = u;
 	}
 
 	//properties
@@ -21,6 +25,7 @@ public:
 	String DataStr;
 	float Latitude;
 	float Longitude;
+	
 
 	/// <summary>
 	/// Create ThingSpeak string
@@ -33,26 +38,10 @@ public:
 				|| (this->isValid[1] && (i >= 3 && i < 6))
 				|| i >= 6)
 			{
-				DataStr += String(i + 1) + "=" + String(this->Data[i], 2);
+				DataStr += String(i + 1) + "=" + u.floatToString(this->Data[i], 3, 2);
 				if (i < this->Size - 1) DataStr += "&";
 			}
 		}
 	}
 
-	/// <summary>
-	/// Create Open Weather Map string
-	/// </summary>
-	void GetOWMString() {
-		DataStr = "";
-		DataStr += "temp=";
-		DataStr += String(this->Data[0], 1);
-		DataStr += "&humidity=";
-		DataStr += String(this->Data[1], 1);
-		DataStr += "&lat=";
-		DataStr += String(this->Latitude, 7);
-		DataStr += "&long=";
-		DataStr += String(this->Longitude, 7);
-		DataStr += "&name=";
-		DataStr += "WeatherStationNodeMCU";
-	}
 }; typedef class DataSet DataSet;

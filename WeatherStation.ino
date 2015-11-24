@@ -11,6 +11,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 //custom structs
+#include <Utils.h>
 #include <PrivateData.h>
 #include <DataSet.h>
 #include <SystemSettings.h>
@@ -35,17 +36,16 @@ const byte SPI_CS = 15;
 MAX7219 display(3, SPI_CS);  // Chips / CS
 WiFiUDP udp;
 WiFiClient client;
-DataSet ds;
+Utils u;
+DataSet ds(u);
 SystemSettings Settings;
 PrivateData pd;
-
 Ticker lcdTicker;
 TimeChangeRule CEST = { "CEST", Last, Sun, Mar, 2, 120 };    //summer time = UTC + 2 hours
 TimeChangeRule CET = { "CET", Last, Sun, Oct, 3, 60 };		 //winter time = UTC + 1 hours
 Timezone myTZ(CEST, CET);
 TimeChangeRule *tcr;
-dhtESP8266 DHTIn;
-dhtESP8266 DHTOut;
+dhtESP8266 DHT;
 
 RunningAverage tempIn = RunningAverage(3);
 RunningAverage tempOut = RunningAverage(3);
@@ -70,17 +70,12 @@ void setup() {
 	udp.begin(2390);
 	WiFi.begin(pd.SSID, pd.Password);
 
-	ds.Latitude = Settings.Latitude;
-	ds.Longitude = Settings.Longitude;
-
 	//alarms
 	lcdTicker.attach_ms(1000, printLcd); //print lcd using interrupt - it will always execute
 	Alarm.timerOnce(3, setBacklight);
 	Alarm.timerRepeat(Settings.UpdateSensorsInterval, getSensors);
 	Alarm.timerRepeat(Settings.UpdateThingSpeakInterval, updateThingSpeak);
 	SyncAlarm = Alarm.timerRepeat(5, setTimeAlarm);
-
-	//Alarm.timerRepeat(Settings.UpdateOpenWeatherMapInterval, updateOpenWeatherMap); //open weather map is weird, ditch that
 }
 
 void loop() {

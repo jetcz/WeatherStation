@@ -8,9 +8,9 @@ void printLcd() {
 	//line 1 dht in
 	if (ds.isValid[0])
 	{
-		LcdText += tempToString(ds.Data[0]);
+		LcdText += u.tempToString(ds.Data[0]);
 		LcdText += "c";
-		hum = floatToString(ds.Data[1], 2, 0);
+		hum = u.floatToString(ds.Data[1], 2, 0);
 		LcdText += hum;
 		if (hum.length() == 3)
 		{
@@ -22,9 +22,9 @@ void printLcd() {
 	//line 2 dht out
 	if (ds.isValid[1])
 	{
-		LcdText += tempToString(ds.Data[3]);
+		LcdText += u.tempToString(ds.Data[3]);
 		LcdText += "c";
-		hum = floatToString(ds.Data[4], 2, 0);
+		hum = u.floatToString(ds.Data[4], 2, 0);
 		LcdText += hum;
 		if (hum.length() == 3)
 		{
@@ -71,6 +71,7 @@ void printLcd() {
 
 	display.sendString(LcdText);
 }
+
 
 /// <summary>
 /// Set backlight intensity based on analog reading of photoresistor

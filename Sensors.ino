@@ -2,60 +2,45 @@
 /// Read sensor data and prepare dataset
 /// </summary>
 void getSensors() {
-	int state;
-	static bool sensor = true;
-	if (sensor)
-	{
-		state = DHTIn.read22(DHTInPin);
-		if (state == 0) {
+	//inside
+	if (DHT.read22(DHTInPin) == 0) {
 
-			tempIn.addValue(DHTIn.temperature + Settings.TempInOffset);
-			humIn.addValue(DHTIn.humidity);
-
-			ds.Data[0] = tempIn.getAverage();
-			ds.Data[1] = humIn.getAverage();
-			ds.Data[2] = getHumidex(DHTIn.temperature, DHTIn.humidity);
-
-			ds.isValid[0] = true;
-		}
-		else
-		{
-#if DEBUG
-			Serial.print("Reading failed: ");
-			Serial.println(state);
-#endif // DEBUG
-
-			ds.isValid[0] = false;
-		}
+		tempIn.addValue(DHT.temperature + Settings.TempInOffset);
+		humIn.addValue(DHT.humidity);
+		ds.Data[0] = tempIn.getAverage();
+		ds.Data[1] = humIn.getAverage();
+		ds.Data[2] = getHumidex(DHT.temperature, DHT.humidity);
+		ds.isValid[0] = true;
 	}
 	else
 	{
-		state = DHTOut.read22(DHTOutPin);
-		if (state == 0) {
-
-			tempOut.addValue(DHTOut.temperature + Settings.TempOutOffset);
-			humOut.addValue(DHTOut.humidity);
-
-			ds.Data[3] = tempOut.getAverage();
-			ds.Data[4] = humOut.getAverage();
-			ds.Data[5] = getHumidex(DHTOut.temperature, DHTOut.humidity);
-
-			ds.isValid[1] = true;
-		}
-		else
-		{
 #if DEBUG
-			Serial.print("Reading failed: ");
-			Serial.println(state);
+		Serial.print("Reading failed: ");
+		Serial.println(state);
 #endif // DEBUG
-			ds.isValid[1] = false;
-		}
+		ds.isValid[0] = false;
+	}
+	//outside
+	if (DHT.read22(DHTOutPin) == 0) {
+		tempOut.addValue(DHT.temperature + Settings.TempOutOffset);
+		humOut.addValue(DHT.humidity);
+		ds.Data[3] = tempOut.getAverage();
+		ds.Data[4] = humOut.getAverage();
+		ds.Data[5] = getHumidex(DHT.temperature, DHT.humidity);
+		ds.isValid[1] = true;
+	}
+	else
+	{
+#if DEBUG
+		Serial.print("Reading failed: ");
+		Serial.println(state);
+#endif // DEBUG
+		ds.isValid[1] = false;
 	}
 
-	sensor = !sensor;
 	ds.Data[6] = light.getAverage();
 	ds.Data[7] = getUptime();
-}
+	}
 
 
 /// <summary>
