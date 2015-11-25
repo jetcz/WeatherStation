@@ -60,7 +60,7 @@ bool FirstSync = false;
 
 void setup() {
 #if DEBUG
-	Serial.begin(9600); //serial console is very unreliable for some reason
+	Serial.begin(115200); //serial console is very unreliable for some reason
 #endif // DEBUG
 
 	display.begin();

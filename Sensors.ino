@@ -15,8 +15,7 @@ void getSensors() {
 	else
 	{
 #if DEBUG
-		Serial.print("Reading failed: ");
-		Serial.println(state);
+		Serial.println("Reading failed: DHT IN");
 #endif // DEBUG
 		ds.isValid[0] = false;
 	}
@@ -32,16 +31,14 @@ void getSensors() {
 	else
 	{
 #if DEBUG
-		Serial.print("Reading failed: ");
-		Serial.println(state);
+		Serial.println("Reading failed: DHT OUT");
 #endif // DEBUG
 		ds.isValid[1] = false;
 	}
 
 	ds.Data[6] = light.getAverage();
 	ds.Data[7] = getUptime();
-	}
-
+}
 
 /// <summary>
 /// Calculate humidex

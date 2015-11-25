@@ -87,7 +87,7 @@ void setTimeAlarm() {
 
 		if (!FirstSync)
 		{
-			SyncAlarm = Alarm.timerRepeat(10800, setTimeAlarm);
+			Alarm.write(SyncAlarm, 10800);
 			FirstSync = true;
 		}
 	}

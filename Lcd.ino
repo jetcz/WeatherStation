@@ -4,29 +4,40 @@
 void printLcd() {
 	static bool dot = true;
 	LcdText = "";
-	String hum;
+	String s;
 	//line 1 dht in
 	if (ds.isValid[0])
 	{
-		LcdText += u.tempToString(ds.Data[0]);
+		s = u.ToString(ds.Data[0], true);
+		if (s.length() == 3)
+		{
+			LcdText += " ";
+		}
+		LcdText += s;
 		LcdText += "c";
-		hum = u.floatToString(ds.Data[1], 2, 0);
-		LcdText += hum;
-		if (hum.length() == 3)
+		s = String(ds.Data[1], 0);
+		LcdText += s;
+		if (s.length() == 3)
 		{
 			LcdText += "h";
-		} else LcdText += "rh";
+		}
+		else LcdText += "rh";
 	}
 	else LcdText += "dht err ";
 
 	//line 2 dht out
 	if (ds.isValid[1])
 	{
-		LcdText += u.tempToString(ds.Data[3]);
+		s = u.ToString(ds.Data[3], true);
+		if (s.length() == 3)
+		{
+			LcdText += " ";
+		}
+		LcdText += s;
 		LcdText += "c";
-		hum = u.floatToString(ds.Data[4], 2, 0);
-		LcdText += hum;
-		if (hum.length() == 3)
+		s = String(ds.Data[4], 0);
+		LcdText += s;
+		if (s.length() == 3)
 		{
 			LcdText += "h";
 		}

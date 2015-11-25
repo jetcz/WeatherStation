@@ -11,21 +11,18 @@ public:
 	/// constructor
 	/// </summary>
 	DataSet(Utils u) {
-		TimeStamp = Latitude = Longitude = 0;
+		TimeStamp = 0;
 		Size = 8;
 		DataStr.reserve(100);
 		this->u = u;
 	}
 
-	//properties
+	//fields
 	volatile double Data[10] = { 0 };
 	byte Size;
 	bool isValid[2] = { false };
 	time_t TimeStamp;
 	String DataStr;
-	float Latitude;
-	float Longitude;
-	
 
 	/// <summary>
 	/// Create ThingSpeak string
@@ -38,7 +35,7 @@ public:
 				|| (this->isValid[1] && (i >= 3 && i < 6))
 				|| i >= 6)
 			{
-				DataStr += String(i + 1) + "=" + u.floatToString(this->Data[i], 3, 2);
+				DataStr += String(i + 1) + "=" + u.ToString(this->Data[i], false);
 				if (i < this->Size - 1) DataStr += "&";
 			}
 		}
