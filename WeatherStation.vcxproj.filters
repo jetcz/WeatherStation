@@ -17,10 +17,16 @@
   <ItemGroup>
     <None Include="WeatherStation.ino" />
     <None Include="Time.ino" />
-    <None Include="DataTypesConversion.ino" />
     <None Include="Lcd.ino" />
-    <None Include="Thingspeak.ino" />
     <None Include="Sensors.ino" />
+    <None Include="Cloud.ino" />
+    <None Include="www\index.htm" />
+    <None Include="www\raphael-2.1.4.min.js" />
+    <None Include="www\justgage-1.1.0.min.js" />
+    <None Include="www\general.css" />
+    <None Include="www\graphs.htm" />
+    <None Include="www\favicon\manifest.json" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.WeatherStation.vsarduino.h">
@@ -32,5 +38,97 @@
     <ClInclude Include="DataSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SystemSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="www\favicon\mstile-310x310.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\android-chrome-36x36.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\android-chrome-48x48.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\android-chrome-72x72.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\android-chrome-96x96.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\android-chrome-144x144.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\android-chrome-192x192.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\apple-touch-icon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\apple-touch-icon-57x57.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\apple-touch-icon-60x60.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\apple-touch-icon-72x72.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\apple-touch-icon-76x76.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\apple-touch-icon-114x114.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\apple-touch-icon-120x120.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\apple-touch-icon-144x144.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\apple-touch-icon-152x152.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\apple-touch-icon-180x180.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\apple-touch-icon-precomposed.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\favicon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\favicon-16x16.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\favicon-32x32.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\favicon-96x96.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\favicon-194x194.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\mstile-70x70.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\mstile-144x144.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\mstile-150x150.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="www\favicon\mstile-310x150.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="www\favicon\browserconfig.xml" />
   </ItemGroup>
 </Project>

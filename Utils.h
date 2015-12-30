@@ -8,7 +8,6 @@ public:
 
 	/// <summary>
 	/// Convert double to string
-	/// THERE IS SOME BUG THAT VALUES FROM -1 TO 0 ARE CONVERTED TO STRING WITHOUT THE MINUS SIGN - THIS METHOD ADDS A HARDCODED MINUS TO THE STRING IF THE VALUE IS FROM -1 TO 0
 	/// </summary>
 	/// <param name="val">Value to convert</param>
 	/// <param name="lcd">If true, adjust the number to print temperature to lcd<</param>
@@ -35,7 +34,8 @@ public:
 			}
 		}
 
-		return (val > -1 && val < 0) ? "-" + str : str;
+		//return (val > -1 && val < 0) ? "-" + str : str; //the sign 0 to -1 bug seems to be fixed 30.12.2015
+		return str;
 	}
 
 }; typedef class Utils Utils;
