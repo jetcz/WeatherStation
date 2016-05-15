@@ -3,18 +3,18 @@
 #include <Ticker.h>
 #include <RunningAverage.h>
 #include <dhtESP8266.h>
+#include <TimeLib.h>
 #include <TimeAlarms.h>
 #include <TimezoneESP8266.h>
-#include <Time.h>
 #include <MAX7219.h>
 #include <SPI.h>
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 //custom structs
-#include <Utils.h>
-#include <PrivateData.h>
-#include <DataSet.h>
-#include <SystemSettings.h>
+#include "Utils.h"
+#include "PrivateData.h"
+#include "DataSet.h"
+#include "SystemSettings.h"
 
 //pin mapping - subtract 1 from D???
 //D0 = 16;
@@ -66,9 +66,10 @@ void setup() {
 	display.begin();
 	display.setIntensity(0);
 	LcdText.reserve(50);
+	
+	WiFi.begin(pd.SSID, pd.Password);
 
 	udp.begin(2390);
-	WiFi.begin(pd.SSID, pd.Password);
 
 	//alarms
 	lcdTicker.attach_ms(1000, printLcd); //print lcd using interrupt - it will always execute

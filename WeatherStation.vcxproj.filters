@@ -32,9 +32,6 @@
     <ClInclude Include="__vm\.WeatherStation.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PrivateData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DataSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PrivateData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

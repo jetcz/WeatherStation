@@ -83,6 +83,9 @@ void setTimeAlarm() {
 	unsigned long time = ntp();
 	if (time != 0)
 	{
+#if DEBUG
+		Serial.println("NTP Sync " + (String)time);
+#endif
 		setTime(myTZ.toLocal(time, &tcr));
 
 		if (!FirstSync)
@@ -90,6 +93,11 @@ void setTimeAlarm() {
 			Alarm.write(SyncAlarm, 10800);
 			FirstSync = true;
 		}
+	}
+	else {
+#if DEBUG
+		Serial.println("NTP Sync failed");
+#endif
 	}
 }
 
