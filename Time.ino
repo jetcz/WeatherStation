@@ -133,3 +133,44 @@ unsigned int millisRollover() {
 	}
 	return _nNumRollovers;
 }
+
+bool GetLowTariff() {
+	static bool IsLow = false;
+	static int lastMinutes = 0;
+
+	time_t currT = now();
+	int currMinutes = (hour(currT) * 60) + minute(currT);
+
+	if (currMinutes != lastMinutes)
+	{
+		int currDay = weekday(currT) - 2;
+		if (currDay == -1)
+		{
+			currDay = 6;
+		}
+		TariffDaySettings currSettings = tariff.setting[currDay];
+
+		bool temp = false;
+		for (int i = 0; i < 3; i++)
+		{
+			temp = temp | (currMinutes >= currSettings.inetrvals[i].on && currMinutes <= currSettings.inetrvals[i].off);
+		}
+		IsLow = temp;
+
+		lastMinutes = currMinutes;
+
+#if DEBUG
+		Serial.print("Tariff changed to ");
+		if (IsLow)
+		{
+			Serial.println("low");
+		}
+		else
+		{
+			Serial.println("high");
+		}
+#endif
+	}
+
+	return IsLow;
+}

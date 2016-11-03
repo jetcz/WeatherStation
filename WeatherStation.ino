@@ -15,6 +15,7 @@
 #include "PrivateData.h"
 #include "DataSet.h"
 #include "SystemSettings.h"
+#include "TariffSettings.h"
 
 //pin mapping - subtract 1 from D???
 //D0 = 16;
@@ -57,6 +58,7 @@ String LcdText;
 int SyncAlarm;
 int SetBacklightAlarm;
 bool FirstSync = false;
+Tariff tariff;
 
 void setup() {
 #if DEBUG
@@ -65,7 +67,7 @@ void setup() {
 
 	display.begin();
 	display.setIntensity(0);
-	LcdText.reserve(50);
+	LcdText.reserve(60);
 	
 	WiFi.begin(pd.SSID, pd.Password);
 

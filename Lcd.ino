@@ -3,6 +3,7 @@
 /// </summary>
 void printLcd() {
 	static bool dot = true;
+	bool tarrifDot = FirstSync ? GetLowTariff() : false;
 	LcdText = "";
 	String s;
 	//line 1 dht in
@@ -22,6 +23,11 @@ void printLcd() {
 			LcdText += "h";
 		}
 		else LcdText += "rh";
+
+		if (tarrifDot)
+		{
+			LcdText += ".";
+		}
 	}
 	else LcdText += "dht err ";
 
@@ -42,6 +48,11 @@ void printLcd() {
 			LcdText += "h";
 		}
 		else LcdText += "rh";
+
+		if (tarrifDot)
+		{
+			LcdText += ".";
+		}
 	}
 	else LcdText += "dht err ";
 
@@ -75,6 +86,11 @@ void printLcd() {
 			LcdText += "0";
 		}
 		LcdText += s; // print the second
+
+		if (tarrifDot)
+		{
+			LcdText += ".";
+		}
 
 		dot = !dot;
 	}
