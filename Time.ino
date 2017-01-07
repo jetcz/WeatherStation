@@ -153,7 +153,7 @@ bool GetLowTariff() {
 		bool temp = false;
 		for (int i = 0; i < 3; i++)
 		{
-			temp = temp | (currMinutes >= currSettings.inetrvals[i].on && currMinutes <= currSettings.inetrvals[i].off);
+			temp = temp | (currMinutes >= currSettings.intervals[i].on && currMinutes <= currSettings.intervals[i].off);
 		}
 		IsLow = temp;
 

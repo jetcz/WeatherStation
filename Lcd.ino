@@ -5,12 +5,13 @@ void printLcd() {
 	static bool dot = true;
 	bool tarrifDot = FirstSync ? GetLowTariff() : false;
 	LcdText = "";
-	String s;
+	String s, s2;
 	//line 1 dht in
 	if (ds.isValid[0])
 	{
-		s = u.ToString(ds.Data[0], true);
-		if (s.length() == 3)
+		s = s2 = u.ToString(ds.Data[0], true);
+		s2.replace(".", "");
+		if (s2.length() == 2)
 		{
 			LcdText += " ";
 		}
@@ -34,8 +35,9 @@ void printLcd() {
 	//line 2 dht out
 	if (ds.isValid[1])
 	{
-		s = u.ToString(ds.Data[3], true);
-		if (s.length() == 3)
+		s = s2 = u.ToString(ds.Data[3], true);
+		s2.replace(".", "");
+		if (s2.length() == 2)
 		{
 			LcdText += " ";
 		}
