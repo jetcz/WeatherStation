@@ -5,7 +5,6 @@ void printLcd() {
 	static bool dot = true;
 	bool tarrifDot = FirstSync ? GetLowTariff() : false;
 	LcdText = "";
-	String s, s2;
 	//line 1 dht in
 	if (ds.isValid[0])
 	{

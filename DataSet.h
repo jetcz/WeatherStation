@@ -13,7 +13,7 @@ public:
 	DataSet(Utils u) {
 		TimeStamp = 0;
 		Size = 8;
-		DataStr.reserve(100);
+		DataStr.reserve(120);
 		this->u = u;
 	}
 

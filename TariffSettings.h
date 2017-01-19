@@ -24,13 +24,13 @@ struct Tariff
 			TariffDaySettings ts;
 
 			TariffDayInterval ti;
-			ti.on = 13 * 60;
+			ti.on = (13 * 60) + 3;
 			ti.off = 15 * 60;
 
 			ts.intervals[0] = ti;
 
 			TariffDayInterval ti2;
-			ti2.on = 19 * 60;
+			ti2.on = (19 * 60) + 3;
 			ti2.off = 24 * 60;
 
 			ts.intervals[1] = ti2;
