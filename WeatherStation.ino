@@ -54,7 +54,7 @@ RunningAverage humIn = RunningAverage(3);
 RunningAverage humOut = RunningAverage(3);
 RunningAverage light = RunningAverage(5);
 
-String LcdText, s, s2;
+String LcdText;
 int SyncAlarm;
 int SetBacklightAlarm;
 bool FirstSync = false;
@@ -67,9 +67,7 @@ void setup() {
 
 	display.begin();
 	display.setIntensity(0);
-	LcdText.reserve(120);
-	s.reserve(6);
-	s2.reserve(6);
+	LcdText.reserve(128);
 	
 	WiFi.begin(pd.SSID, pd.Password);
 

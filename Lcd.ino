@@ -8,17 +8,15 @@ void printLcd() {
 	//line 1 dht in
 	if (ds.isValid[0])
 	{
-		s = s2 = u.ToString(ds.Data[0], true);
-		s2.replace(".", "");
-		if (s2.length() == 2)
+		if (getTemperatureLengthOnLcd(ds.Data[0]) == 2)
 		{
 			LcdText += " ";
 		}
-		LcdText += s;
+		LcdText += u.ToString(ds.Data[0], true);
 		LcdText += "c";
-		s = String(ds.Data[1], 0);
-		LcdText += s;
-		if (s.length() == 3)
+
+		LcdText += String(ds.Data[1], 0);
+		if (getHumidityLengthOnLcd(ds.Data[1]) == 3)
 		{
 			LcdText += "h";
 		}
@@ -34,17 +32,15 @@ void printLcd() {
 	//line 2 dht out
 	if (ds.isValid[1])
 	{
-		s = s2 = u.ToString(ds.Data[3], true);
-		s2.replace(".", "");
-		if (s2.length() == 2)
+		if (getTemperatureLengthOnLcd(ds.Data[3]) == 2)
 		{
 			LcdText += " ";
 		}
-		LcdText += s;
+		LcdText += u.ToString(ds.Data[3], true);
 		LcdText += "c";
-		s = String(ds.Data[4], 0);
-		LcdText += s;
-		if (s.length() == 3)
+
+		LcdText += String(ds.Data[4], 0);
+		if (getHumidityLengthOnLcd(ds.Data[4]) == 3)
 		{
 			LcdText += "h";
 		}
@@ -119,10 +115,44 @@ void setBacklight() {
 	if (intensity != lastVal)
 	{
 		display.setIntensity(intensity);
+		lastVal = intensity;
 	}
-
-	lastVal = intensity;
 
 	//display.sendString("                        ");
 	//display.sendString(String(intensity) + " " + String(counts));
+}
+
+int getTemperatureLengthOnLcd(double num) {
+	if (num >= 0.0)
+	{
+		if (num >= 10.0)
+		{
+			return 3;
+		}
+		else
+		{
+			return 2;
+		}
+
+	}
+	else
+	{
+		return 3;
+	}
+}
+
+int getHumidityLengthOnLcd(double num)
+{
+	if (round(num) >= 100)
+	{
+		return 3;
+	}
+	else if (round(num) < 10)
+	{
+		return 1;
+	}
+	else
+	{
+		return 2;
+	}
 }
