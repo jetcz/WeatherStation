@@ -54,7 +54,7 @@ RunningAverage humIn = RunningAverage(3);
 RunningAverage humOut = RunningAverage(3);
 RunningAverage light = RunningAverage(5);
 
-String LcdText;
+String LcdText = "";
 int SyncAlarm;
 int SetBacklightAlarm;
 bool FirstSync = false;

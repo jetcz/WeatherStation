@@ -109,7 +109,7 @@ void setBacklight() {
 
 	int counts = analogRead(17);
 	light.addValue(counts);
-	int intensity = round(pow(light.getAverage(), 1.9) * 4.0 / 100000.0);
+	volatile int intensity = round(pow(light.getAverage(), 1.9) * 4.0 / 100000.0);
 	intensity = intensity > 15 ? 15 : intensity;
 
 	if (intensity != lastVal)
@@ -125,7 +125,7 @@ void setBacklight() {
 int getTemperatureLengthOnLcd(double num) {
 	if (num >= 0.0)
 	{
-		if (num >= 10.0)
+		if (num >= 9.949)
 		{
 			return 3;
 		}

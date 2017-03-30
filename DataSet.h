@@ -14,13 +14,14 @@ public:
 		TimeStamp = 0;
 		Size = 8;
 		DataStr.reserve(120);
+		DataStr = "";
 		this->u = u;
 	}
 
 	//fields
 	volatile double Data[10] = { 0 };
 	byte Size;
-	bool isValid[2] = { false };
+	volatile bool isValid[2] = { false };
 	time_t TimeStamp;
 	String DataStr;
 

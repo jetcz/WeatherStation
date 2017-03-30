@@ -9,6 +9,7 @@ public:
 	Utils()
 	{
 		s.reserve(6);
+		s = "";
 	}
 
 	/// <summary>
