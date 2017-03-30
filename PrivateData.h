@@ -3,9 +3,9 @@
 /// </summary>
 struct PrivateData
 {
-	const String TSAPIKey = "xxx";
+	const String TSAPIKey = "HJK4HC3AHIG1TY2B";
 	const String OWMAuth = "xxx=";
-	const char* SSID = "xxx";
-	const char* Password = "xxx";
+	const char* SSID = "jetcz_iot";
+	const char* Password = "88888888";
 
 }; typedef struct PrivateData PrivateData;
