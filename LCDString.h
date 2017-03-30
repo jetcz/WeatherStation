@@ -4,7 +4,7 @@
 /// </summary>
 class LCDString {
 public:
-	String theString;
+	volatile String theString;
 	volatile bool Ready;
 
 	LCDString()
