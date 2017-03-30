@@ -16,6 +16,7 @@
 #include "DataSet.h"
 #include "SystemSettings.h"
 #include "TariffSettings.h"
+#include "LCDString.h"
 
 //pin mapping - subtract 1 from D???
 //D0 = 16;
@@ -47,14 +48,13 @@ TimeChangeRule CET = { "CET", Last, Sun, Oct, 3, 60 };		 //winter time = UTC + 1
 Timezone myTZ(CEST, CET);
 TimeChangeRule *tcr;
 dhtESP8266 DHT;
-
+LCDString LCDstr;
 RunningAverage tempIn = RunningAverage(3);
 RunningAverage tempOut = RunningAverage(3);
 RunningAverage humIn = RunningAverage(3);
 RunningAverage humOut = RunningAverage(3);
 RunningAverage light = RunningAverage(5);
 
-String LcdText;
 int SyncAlarm;
 int SetBacklightAlarm;
 bool FirstSync = false;
@@ -67,8 +67,7 @@ void setup() {
 
 	display.begin();
 	display.setIntensity(0);
-	LcdText.reserve(128);
-	
+
 	WiFi.begin(pd.SSID, pd.Password);
 
 	udp.begin(2390);
@@ -84,4 +83,9 @@ void setup() {
 void loop() {
 	yield();
 	Alarm.delay(0);
+	if (!LCDstr.Ready)
+	{
+		CreateDisplayString();
+		LCDstr.Ready = true;
+	}
 }
