@@ -1,58 +1,57 @@
-
 /// <summary>
 /// Display sensor data and time on the lcd array
 /// </summary>
-void CreateDisplayString() {
+void printLcd() {
 	static bool dot = true;
 	bool tarrifDot = FirstSync ? GetLowTariff() : false;
-	LCDstr.theString = "";
+	LcdText = "";
 	//line 1 dht in
 	if (ds.isValid[0])
 	{
 		if (getTemperatureLengthOnLcd(ds.Data[0]) == 2)
 		{
-			LCDstr.theString += " ";
+			LcdText += " ";
 		}
-		LCDstr.theString += u.ToString(ds.Data[0], true);
-		LCDstr.theString += "c";
+		LcdText += u.ToString(ds.Data[0], true);
+		LcdText += "c";
 
-		LCDstr.theString += String(ds.Data[1], 0);
+		LcdText += String(ds.Data[1], 0);
 		if (getHumidityLengthOnLcd(ds.Data[1]) == 3)
 		{
-			LCDstr.theString += "h";
+			LcdText += "h";
 		}
-		else LCDstr.theString += "rh";
+		else LcdText += "rh";
 
 		if (tarrifDot)
 		{
-			LCDstr.theString += ".";
+			LcdText += ".";
 		}
 	}
-	else LCDstr.theString += "dht err ";
+	else LcdText += "dht err ";
 
 	//line 2 dht out
 	if (ds.isValid[1])
 	{
 		if (getTemperatureLengthOnLcd(ds.Data[3]) == 2)
 		{
-			LCDstr.theString += " ";
+			LcdText += " ";
 		}
-		LCDstr.theString += u.ToString(ds.Data[3], true);
-		LCDstr.theString += "c";
+		LcdText += u.ToString(ds.Data[3], true);
+		LcdText += "c";
 
-		LCDstr.theString += String(ds.Data[4], 0);
+		LcdText += String(ds.Data[4], 0);
 		if (getHumidityLengthOnLcd(ds.Data[4]) == 3)
 		{
-			LCDstr.theString += "h";
+			LcdText += "h";
 		}
-		else LCDstr.theString += "rh";
+		else LcdText += "rh";
 
 		if (tarrifDot)
 		{
-			LCDstr.theString += ".";
+			LcdText += ".";
 		}
 	}
-	else LCDstr.theString += "dht err ";
+	else LcdText += "dht err ";
 
 	//line 3 time
 	if (FirstSync)
@@ -65,47 +64,36 @@ void CreateDisplayString() {
 
 		if (h < 10)
 		{
-			LCDstr.theString += "0";
+			LcdText += "0";
 		}
-		LCDstr.theString += h; // print the hour (86400 equals secs per day)
-		LCDstr.theString += "-";
+		LcdText += h; // print the hour (86400 equals secs per day)
+		LcdText += "-";
 		if (m < 10) {
 			// In the first 10 minutes of each hour, we'll want a leading '0'
-			LCDstr.theString += "0";
+			LcdText += "0";
 		}
-		LCDstr.theString += m; // print the minute (3600 equals secs per minute)
-		LCDstr.theString += "-";
+		LcdText += m; // print the minute (3600 equals secs per minute)
+		LcdText += "-";
 		if (dot)
 		{
-			LCDstr.theString += ".";
+			LcdText += ".";
 		}
 		if (s < 10) {
 			// In the first 10 seconds of each minute, we'll want a leading '0'
-			LCDstr.theString += "0";
+			LcdText += "0";
 		}
-		LCDstr.theString += s; // print the second
+		LcdText += s; // print the second
 
 		if (tarrifDot)
 		{
-			LCDstr.theString += ".";
+			LcdText += ".";
 		}
 
 		dot = !dot;
 	}
-	else LCDstr.theString += "ntp sync";
+	else LcdText += "ntp sync";
 
-};
-
-/// <summary>
-/// called from interrupts
-/// </summary>
-void printLcd() {
-
-	if (LCDstr.Ready)
-	{
-		display.sendString(LCDstr.theString);
-		LCDstr.Ready = false;
-	}
+	display.sendString(LcdText);
 }
 
 
@@ -135,11 +123,9 @@ void setBacklight() {
 }
 
 int getTemperatureLengthOnLcd(double num) {
-
-	long numrounded = round(num);
-	if (numrounded >= (long)0.0)
+	if (num >= 0.0)
 	{
-		if (numrounded >= (long)9.949)
+		if (num >= 10.0)
 		{
 			return 3;
 		}
